@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_travel_app/screens/description_page.dart';
 import 'package:flutter_travel_app/utils/constants.dart';
 
 class HomePage extends StatelessWidget {
@@ -55,15 +56,30 @@ class HomePage extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: 3,
             itemBuilder: (context, index) {
-              return Container(
-                padding: EdgeInsets.all(10),
-                margin: EdgeInsets.only(top: 10, bottom: 10, right: 10),
-                width: 180,
-                decoration: BoxDecoration(
-                  color: AppColor.containerGreyColor,
-                  borderRadius: BorderRadius.circular(20),
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DescriptionPage(
+                        cityName: bestDeals[index]['city_name'],
+                        subCity: bestDeals[index]['sub_city'],
+                        price: bestDeals[index]['price'],
+                        rating: bestDeals[index]['rating'],
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.only(top: 10, bottom: 10, right: 10),
+                  width: 180,
+                  decoration: BoxDecoration(
+                    color: AppColor.containerGreyColor,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: _buildBestDealDescription(index),
                 ),
-                child: _buildBestDealDescription(index),
               );
             },
           ),
@@ -73,7 +89,57 @@ class HomePage extends StatelessWidget {
   }
 
   _buildPopularDescription() {
-    return Row();
+    return Container(
+      width: 180,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Cancum",
+                style: TextStyle(
+                  fontSize: 15,
+                  color: AppColor.blackColor,
+                ),
+              ),
+              Text(
+                "Mexico",
+                style: TextStyle(
+                  fontSize: 15,
+                  color: AppColor.greyColor,
+                ),
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.star, color: Colors.orange, size: 15),
+                  Text(
+                    "4.8",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                "848 Reviews",
+                style: TextStyle(
+                  fontSize: 15,
+                  color: AppColor.greyColor,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   Column _buildPopularDestinationPart() {
@@ -103,12 +169,13 @@ class HomePage extends StatelessWidget {
           ],
         ),
         Container(
-          height: 200,
+          height: 240,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: 3,
             itemBuilder: (context, index) {
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     padding: EdgeInsets.all(10),
@@ -127,7 +194,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  _buildPopularDescription()
+                  _buildPopularDescription(),
                 ],
               );
             },
